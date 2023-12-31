@@ -110,6 +110,12 @@ export const BlogDetailPage = () => {
     h2 {
       margin-top: 2rem;
     }
+
+    img {
+      width: 100%;
+      display: block;
+      object-fit: fit;
+    }
   `
 
   return (
