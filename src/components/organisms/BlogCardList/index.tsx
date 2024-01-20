@@ -10,13 +10,18 @@ const Container = styled.div`
   }
 `
 
-export const BlogCardList = () => {
-  // TODO: フォームにタグを入力する際、Enterでタグの決定するが、「,」でもタグ決定とみなす。
-  // TODO: backend側でタグをカンマ区切りでハンドリングするため
+type BlogCardListProps = {
+  tag?: string
+  keyword?: string
+}
+
+export const BlogCardList = (props: BlogCardListProps) => {
+  const { tag, keyword } = props
   const { blogs } = useBlogList(
     {
       apiBaseUrl: import.meta.env.VITE_API_BASE_URL,
     },
+    { tag, keyword },
     [],
   )
 

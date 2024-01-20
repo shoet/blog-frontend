@@ -15,6 +15,8 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
+// TODO: フォームにタグを入力する際、Enterでタグの決定するが、「,」でもタグ決定とみなす。
+// TODO: backend側でタグをカンマ区切りでハンドリングするため
 export type BlogFormData = {
   id: number
   title: string
