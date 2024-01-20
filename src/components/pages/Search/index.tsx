@@ -1,5 +1,7 @@
 import { Badge } from '@/components/atoms/Badge'
 import { Text } from '@/components/atoms/Text'
+import Box from '@/components/layout/Box'
+import { BlogCardList } from '@/components/organisms/BlogCardList'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -10,7 +12,6 @@ type SearchProps = {
 }
 
 export const SearchPage = () => {
-  // TODO: 検索表示
   const [search, setSearch] = useState<SearchProps>()
   const [searchParams] = useSearchParams()
 
@@ -26,18 +27,31 @@ export const SearchPage = () => {
     }
   }, [searchParams])
 
+  const tag = searchParams.get('tag') ?? undefined
+  const keyword = searchParams.get('keyword') ?? undefined
+
+  let blogCardList
+  if (search?.type === 'tag') {
+    blogCardList = <BlogCardList tag={tag} />
+  } else if (search?.type === 'keyword') {
+    blogCardList = <BlogCardList keyword={keyword} />
+  }
+
   return (
     <>
-      <Text
-        fontSize="large"
-        color="gray"
-        key={search?.key}
-      >{`Searched by ${search?.type}: `}</Text>
-      {search?.type === 'tag' ? (
-        <Badge>{search.key}</Badge>
-      ) : (
-        <Badge backgroundColor="pink">{search?.key}</Badge>
-      )}
+      <Box marginBottom={2}>
+        <Text
+          fontSize="large"
+          color="gray"
+          key={search?.key}
+        >{`Searched by ${search?.type}: `}</Text>
+        {search?.type === 'tag' ? (
+          <Badge>{search.key}</Badge>
+        ) : (
+          <Badge backgroundColor="pink">{search?.key}</Badge>
+        )}
+      </Box>
+      {blogCardList}
     </>
   )
 }

@@ -3,8 +3,28 @@ import { parseCookie } from '@/utils/cookie'
 import { buildFetchClient, buildFetcher } from '@/utils/fetcher'
 import useSWR from 'swr'
 
-export const useBlogList = (context: ApiContext, initial: Blog[] = []) => {
-  const url = `${context.apiBaseUrl}/blogs`
+type UseBlogListInput = {
+  tag?: string
+  keyword?: string
+}
+
+export const useBlogList = (
+  context: ApiContext,
+  input: UseBlogListInput = {},
+  initial: Blog[] = [],
+) => {
+  let url = `${context.apiBaseUrl}/blogs`
+  const params = new URLSearchParams()
+  if (input.tag) {
+    params.append('tag', input.tag)
+  }
+  if (input.keyword) {
+    params.append('keyword', input.keyword)
+  }
+  if (Array.from(params).length > 0) {
+    url = `${url}?${params}`
+  }
+  console.log(url)
   const { data, isLoading, error, mutate } = useSWR<Blog[]>(url)
   return {
     blogs: data || initial,
