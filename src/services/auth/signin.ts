@@ -26,7 +26,7 @@ export const signin = async (
 }
 
 export const signout = async (context: ApiContext): Promise<void> => {
-  const url = `${context.apiBaseUrl}/auth/admin/signout`
+  const url = `${context.apiBaseUrl}/auth/signout`
   return await fetcher(url, {
     method: 'POST',
     headers: {

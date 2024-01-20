@@ -2,7 +2,7 @@ import { ApiContext, Blog } from '@/types/api'
 import { fetcher } from '@/utils/fetcher'
 
 export type PutBlogParams = {
-  blog: Omit<Omit<Omit<Blog, 'id'>, 'created'>, 'modified'>
+  blog: Omit<Omit<Blog, 'created'>, 'modified'>
 }
 
 export const putBlog = async (
@@ -10,7 +10,7 @@ export const putBlog = async (
   { blog }: PutBlogParams,
   authToken: string,
 ): Promise<Blog> => {
-  const url = `${context.apiBaseUrl}/blogs`
+  const url = `${context.apiBaseUrl}/blogs/${blog.id}`
   return await fetcher(url, {
     method: 'PUT',
     headers: {
