@@ -50,7 +50,7 @@ export const AuthContextProvider = (
     error,
     mutate: mutateFunc,
   } = useSWR<User>(
-    `${import.meta.env.VITE_API_BASE_URL}/auth/login/me`,
+    `${import.meta.env.VITE_API_BASE_URL}/auth/signin/me`,
     authFetcher,
     {
       onErrorRetry: (error, _1, _2, revalidate, { retryCount }) => {
