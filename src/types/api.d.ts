@@ -22,5 +22,4 @@ export type Blog = {
 
 export type User = {
   id: number
-  name: string
 }

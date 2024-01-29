@@ -56,7 +56,7 @@ export const BlogCard = (props: BlogCardProps) => {
   return (
     <>
       <Container>
-        <Flex flexDirection="row" alignItems="center">
+        <Flex flexDirection={{ base: 'column', sm: 'row' }} alignItems="center">
           <ImageWrapper>
             <img src={blog.thumbnailImageFileName} alt={blog.title} />
           </ImageWrapper>
