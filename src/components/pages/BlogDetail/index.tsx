@@ -12,6 +12,7 @@ import { MarkedOptions } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai.css'
 import { useEffect } from 'react'
+import { useTitle } from '@/hooks/use-title'
 
 type BlogDetailPageParams = {
   id: string
@@ -57,6 +58,8 @@ export const BlogDetailPage = () => {
     },
     Number(id),
   )
+
+  useTitle(blog?.title ?? '')
 
   useEffect(() => {
     if (blog) {
