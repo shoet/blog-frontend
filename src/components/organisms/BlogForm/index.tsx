@@ -11,7 +11,7 @@ import { putSignedUrl } from '@/services/files/put-file'
 import { ApiContext, Blog } from '@/types/api'
 import { parseCookie } from '@/utils/cookie'
 import { generateBase32EncodedUuid } from '@/utils/ids'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
@@ -26,6 +26,11 @@ export type BlogFormData = {
   isPublic: boolean
   thumbnailImageFileName?: string
   tags: string[]
+}
+
+type PreviewImage = {
+  objectURL: string
+  fileName: string
 }
 
 type BlogFormProps = {
@@ -63,11 +68,41 @@ export const BlogForm = (props: BlogFormProps) => {
   })
 
   const [imageFiles, setImageFiles] = useState<File[]>([])
-  const [previewImage, setPreviewImage] = useState<string>(
-    data?.thumbnailImageFileName || '',
-  )
+  const [previewImage, setPreviewImage] = useState<PreviewImage | null>(null)
+
+  useEffect(() => {
+    if (imageFiles.length > 0) {
+      const newImageURL = URL.createObjectURL(imageFiles[0])
+      setPreviewImage({ objectURL: newImageURL, fileName: imageFiles[0].name })
+      return () => {
+        URL.revokeObjectURL(newImageURL)
+      }
+    }
+  }, [imageFiles])
 
   const handleOnSubmit = async (data: BlogFormData) => {
+    if (imageFiles.length != 1) {
+      return
+    }
+    const uploadImageFile = imageFiles[0]
+    const fileName = `${generateBase32EncodedUuid()}.${
+      uploadImageFile.type.split('/')[1]
+    }`
+    const resp = await getSignedPutUrl(
+      apiContext,
+      {
+        fileName: fileName,
+        fileType: 'thumbnail',
+      },
+      token,
+    )
+    const { signedUrl, putUrl } = resp
+    await putSignedUrl({
+      signedPutUrl: signedUrl,
+      contentType: uploadImageFile.type,
+      file: uploadImageFile,
+    })
+    data.thumbnailImageFileName = putUrl
     data.authorId = 1 // TODO
     onSubmit && onSubmit(data)
   }
@@ -158,7 +193,7 @@ export const BlogForm = (props: BlogFormProps) => {
               control={control}
               name="thumbnailImageFileName"
               defaultValue=""
-              render={({ field: { onChange } }) => (
+              render={() => (
                 <>
                   <Dropzone
                     value={imageFiles}
@@ -169,26 +204,7 @@ export const BlogForm = (props: BlogFormProps) => {
                         })
                         return
                       }
-                      const fileName = `${generateBase32EncodedUuid()}.${
-                        files[0].type.split('/')[1]
-                      }`
-                      const resp = await getSignedPutUrl(
-                        apiContext,
-                        {
-                          fileName: fileName,
-                          fileType: 'thumbnail',
-                        },
-                        token,
-                      )
-                      const { signedUrl, putUrl } = resp
-                      await putSignedUrl({
-                        signedPutUrl: signedUrl,
-                        contentType: files[0].type,
-                        file: files[0],
-                      })
                       setImageFiles(files)
-                      setPreviewImage(putUrl)
-                      onChange(putUrl)
                     }}
                   >
                     {previewImage && (
@@ -198,11 +214,11 @@ export const BlogForm = (props: BlogFormProps) => {
                             backgroundColor="primary"
                             padding="3px"
                           >
-                            <Text color="white">{imageFiles[0].name}</Text>
+                            <Text color="white">{previewImage.fileName}</Text>
                           </PreviewImageTitle>
                         )}
                         <PreviewImageWrapper>
-                          <img src={previewImage} />
+                          <img src={previewImage.objectURL} />
                         </PreviewImageWrapper>
                       </Box>
                     )}
