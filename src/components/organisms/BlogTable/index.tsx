@@ -6,6 +6,7 @@ import { parseCookie } from '@/utils/cookie'
 import { IsPublicBadge, IsNotPublicBadge } from '@/components/atoms/Badge'
 import styled from 'styled-components'
 import { toResponsiveValue } from '@/utils/style'
+import { toStringYYYYMMDD_HHMMSS } from '@/utils/date'
 
 type BlogTableProps = {
   blogs: Blog[]
@@ -71,7 +72,7 @@ export const BlogTable = (props: BlogTableProps) => {
                   {blog.title}
                 </TitleLink>
               </td>
-              <td>{blog.created}</td>
+              <td>{toStringYYYYMMDD_HHMMSS(blog.created)}</td>
               <td style={{ textAlign: 'center' }}>
                 {blog.isPublic ? <IsPublicBadge /> : <IsNotPublicBadge />}
               </td>
