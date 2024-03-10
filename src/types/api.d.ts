@@ -16,8 +16,8 @@ export type Blog = {
   thumbnailImageFileName: string
   isPublic: boolean
   tags?: string[]
-  created: string
-  modified: string
+  created: number
+  modified: number
 }
 
 export type User = {

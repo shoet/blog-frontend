@@ -7,8 +7,8 @@
     "thumbnailImageFileName": "",
     "isPublic": true,
     "tags": ["Go"],
-    "created": "2023-10-18T07:06:23.478528463Z",
-    "modified": "2023-10-18T07:06:23.478528463Z"
+    "created": 1710039459,
+    "modified": 1710039459
   },
   {
     "id": 36,
@@ -18,8 +18,8 @@
     "thumbnailImageFileName": "",
     "isPublic": true,
     "tags": ["go"],
-    "created": "2023-10-18T03:52:54.146405924Z",
-    "modified": "2023-10-18T03:52:54.146405924Z"
+    "created": 1710039459,
+    "modified": 1710039459
   },
   {
     "id": 35,
@@ -29,7 +29,7 @@
     "thumbnailImageFileName": "",
     "isPublic": true,
     "tags": ["go"],
-    "created": "2023-10-18T03:23:02.195870386Z",
-    "modified": "2023-10-18T03:23:02.195870386Z"
+    "created": 1710039459,
+    "modified": 1710039459
   }
 ]
