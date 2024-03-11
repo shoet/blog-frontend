@@ -15,8 +15,6 @@ import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
-// TODO: フォームにタグを入力する際、Enterでタグの決定するが、「,」でもタグ決定とみなす。
-// TODO: backend側でタグをカンマ区切りでハンドリングするため
 export type BlogFormData = {
   id: number
   title: string
@@ -38,11 +36,8 @@ type BlogFormProps = {
   onSubmit?: (data: BlogFormData) => void
 }
 
-const PreviewImageTitle = styled(Box)`
-  border-radius: 5px 5px 0px 0px; 
-`
-
-const PreviewImageWrapper = styled.div`
+const PreviewImage = ({ src }: { src: string }) => {
+  const Wrapper = styled.div`
   width: 100%;
   height: 150px;
   > img {
@@ -50,7 +45,15 @@ const PreviewImageWrapper = styled.div`
     height: 100%;
     object-fit: contain;
   }
-`
+  `
+  return (
+    <Box>
+      <Wrapper>
+        <img src={src} />
+      </Wrapper>
+    </Box>
+  )
+}
 
 export const BlogForm = (props: BlogFormProps) => {
   // TODO: authorId
@@ -81,28 +84,31 @@ export const BlogForm = (props: BlogFormProps) => {
   }, [imageFiles])
 
   const handleOnSubmit = async (data: BlogFormData) => {
-    if (imageFiles.length != 1) {
-      return
+    // 画像がセットされていない場合はブラウザにアップロードされたファイルを使う
+    if (!data.thumbnailImageFileName) {
+      if (imageFiles.length != 1) {
+        return
+      }
+      const uploadImageFile = imageFiles[0]
+      const fileName = `${generateBase32EncodedUuid()}.${
+        uploadImageFile.type.split('/')[1]
+      }`
+      const resp = await getSignedPutUrl(
+        apiContext,
+        {
+          fileName: fileName,
+          fileType: 'thumbnail',
+        },
+        token,
+      )
+      const { signedUrl, putUrl } = resp
+      await putSignedUrl({
+        signedPutUrl: signedUrl,
+        contentType: uploadImageFile.type,
+        file: uploadImageFile,
+      })
+      data.thumbnailImageFileName = putUrl
     }
-    const uploadImageFile = imageFiles[0]
-    const fileName = `${generateBase32EncodedUuid()}.${
-      uploadImageFile.type.split('/')[1]
-    }`
-    const resp = await getSignedPutUrl(
-      apiContext,
-      {
-        fileName: fileName,
-        fileType: 'thumbnail',
-      },
-      token,
-    )
-    const { signedUrl, putUrl } = resp
-    await putSignedUrl({
-      signedPutUrl: signedUrl,
-      contentType: uploadImageFile.type,
-      file: uploadImageFile,
-    })
-    data.thumbnailImageFileName = putUrl
     data.authorId = 1 // TODO
     onSubmit && onSubmit(data)
   }
@@ -204,24 +210,16 @@ export const BlogForm = (props: BlogFormProps) => {
                         })
                         return
                       }
+                      // 画像がセットされたらPostデータの画像をリセットする
+                      setValue('thumbnailImageFileName', '')
                       setImageFiles(files)
                     }}
                   >
-                    {previewImage && (
-                      <Box>
-                        {imageFiles.length > 0 && (
-                          <PreviewImageTitle
-                            backgroundColor="primary"
-                            padding="3px"
-                          >
-                            <Text color="white">{previewImage.fileName}</Text>
-                          </PreviewImageTitle>
-                        )}
-                        <PreviewImageWrapper>
-                          <img src={previewImage.objectURL} />
-                        </PreviewImageWrapper>
-                      </Box>
-                    )}
+                    {getValues().thumbnailImageFileName ? (
+                      <PreviewImage src={getValues().thumbnailImageFileName!} />
+                    ) : previewImage ? (
+                      <PreviewImage src={previewImage.objectURL} />
+                    ) : null}
                   </Dropzone>
                   {errors.thumbnailImageFileName && (
                     <Text as="label" variant="small" color="danger">
