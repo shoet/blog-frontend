@@ -1,23 +1,23 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, CreateAxiosDefaults } from 'axios'
 
 export type FetcherBuildOptions = {
   headers?: any
 }
 
-export const buildFetchClient = (options?: FetcherBuildOptions) => {
-  let headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  }
-
-  if (options && options.headers) {
-    headers = Object.assign(headers, options.headers)
-  }
-
-  return axios.create({
+export const buildFetchClient = (options?: CreateAxiosDefaults) => {
+  const defaultOptions: CreateAxiosDefaults = {
     withCredentials: true,
-    headers: headers,
-  })
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  }
+
+  if (options) {
+    Object.assign(defaultOptions, options)
+  }
+
+  return axios.create(defaultOptions)
 }
 
 const client = buildFetchClient()
