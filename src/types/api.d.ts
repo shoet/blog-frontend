@@ -23,3 +23,13 @@ export type Blog = {
 export type User = {
   id: number
 }
+
+export type GitHubContributions = {
+  contributionDays: [
+    {
+      date: string
+      color: string
+      contributionCount: number
+    },
+  ]
+}

@@ -3,6 +3,7 @@ import { Profile } from '../Profile'
 import { SearchForm } from '@/components/molecules/SearchForm'
 import { BadgeContainer } from '../BadgeContainer'
 import styled from 'styled-components'
+import { GitHubContributionContainer } from '../GitHubContributionContainer'
 
 const Container = styled.div`
   position: sticky;
@@ -20,6 +21,9 @@ export const SideContent = () => {
       </Box>
       <Box marginTop={3}>
         <BadgeContainer />
+      </Box>
+      <Box marginTop={3}>
+        <GitHubContributionContainer />
       </Box>
     </Container>
   )
