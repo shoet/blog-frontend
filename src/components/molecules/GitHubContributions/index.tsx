@@ -55,19 +55,21 @@ export const GitHubContributionsGrid = (props: GitHubContributionsProps) => {
 
   return (
     <>
-      <Row style={{ backgroundColor: '' }}>
-        {contributions.map((c, idx) => {
-          return (
-            <div
-              style={{
-                marginLeft: 0 === idx ? '0' : '0.1rem',
-              }}
-            >
-              <ContributionColumn contribution={c} />
-            </div>
-          )
-        })}
-      </Row>
+      <a href="https://github.com/shoet" target="_black">
+        <Row style={{ backgroundColor: '' }}>
+          {contributions.map((c, idx) => {
+            return (
+              <div
+                style={{
+                  marginLeft: 0 === idx ? '0' : '0.1rem',
+                }}
+              >
+                <ContributionColumn contribution={c} />
+              </div>
+            )
+          })}
+        </Row>
+      </a>
     </>
   )
 }
