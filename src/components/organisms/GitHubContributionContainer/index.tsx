@@ -2,6 +2,6 @@ import { GitHubContributionsGrid } from '@/components/molecules/GitHubContributi
 import { useGitHubContributions } from '@/services/github/use-github-contributions'
 
 export const GitHubContributionContainer = () => {
-  const { contributions, isLoading, error } = useGitHubContributions()
+  const { contributions } = useGitHubContributions()
   return <GitHubContributionsGrid contributions={contributions} />
 }

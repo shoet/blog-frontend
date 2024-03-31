@@ -1,1 +1,1 @@
-export const APP_PAGE_TITLE = 'Blog'
+export const APP_PAGE_TITLE = 'shoet Blog'

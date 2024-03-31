@@ -7,7 +7,7 @@ export const useGitHubContributions = () => {
   const fetcherClient = buildFetchClient({
     params: {
       username: 'shoet',
-      num_of_latest_week: 30,
+      num_of_latest_week: 50,
     },
   })
   const fetcher = buildFetcher(fetcherClient)
