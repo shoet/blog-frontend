@@ -2,12 +2,12 @@ import { IconArrowLeft, IconArrowRight } from '@/components/atoms/Icon'
 import Box from '@/components/layout/Box'
 import styled from 'styled-components'
 
-type PagenationProps = {
+type BlogPagenationProps = {
   onClickPrev?: () => void
   onClickNext?: () => void
 }
 
-export const Pagenation = (props: PagenationProps) => {
+export const BlogPagenation = (props: BlogPagenationProps) => {
   const { onClickPrev, onClickNext } = props
 
   const Container = styled.div`
