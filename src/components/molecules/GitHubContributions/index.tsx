@@ -39,24 +39,24 @@ const ContributionColumn = (props: { contribution: GitHubContributions }) => {
   )
 }
 
+const GitHubContributionsRow = styled.div`
+  &::-webkit-scrollbar{
+    display: none;
+  }
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  overflow-x: scroll;
+  padding: 0 0.5rem;
+`
+
 export const GitHubContributionsGrid = (props: GitHubContributionsProps) => {
   const { contributions } = props
-
-  const Row = styled.div`
-    &::-webkit-scrollbar{
-      display: none;
-    }
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    overflow-x: scroll;
-    padding: 0 0.5rem;
-  `
 
   return (
     <>
       <a href="https://github.com/shoet" target="_black">
-        <Row style={{ backgroundColor: '' }}>
+        <GitHubContributionsRow style={{ backgroundColor: '' }}>
           {contributions.map((c, idx) => {
             return (
               <div
@@ -68,7 +68,7 @@ export const GitHubContributionsGrid = (props: GitHubContributionsProps) => {
               </div>
             )
           })}
-        </Row>
+        </GitHubContributionsRow>
       </a>
     </>
   )
