@@ -13,17 +13,19 @@ const ContributionTile = styled.div<{ color: string }>`
   border-radius: 20%;
 `
 
+const ContributionColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 const ContributionColumn = (props: { contribution: GitHubContributions }) => {
   const { contribution } = props
-  const Column = styled.div`
-    display: flex;
-    flex-direction: column;
-  `
   return (
-    <Column>
+    <ContributionColumnContainer>
       {contribution.contributionDays.map((cd, idx) => {
         return (
           <div
+            key={idx}
             style={{
               paddingBottom:
                 contribution.contributionDays.length - 1 === idx
@@ -35,7 +37,7 @@ const ContributionColumn = (props: { contribution: GitHubContributions }) => {
           </div>
         )
       })}
-    </Column>
+    </ContributionColumnContainer>
   )
 }
 
@@ -60,6 +62,7 @@ export const GitHubContributionsGrid = (props: GitHubContributionsProps) => {
           {contributions.map((c, idx) => {
             return (
               <div
+                key={idx}
                 style={{
                   marginLeft: 0 === idx ? '0' : '0.1rem',
                 }}
