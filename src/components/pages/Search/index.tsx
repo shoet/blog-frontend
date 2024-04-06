@@ -1,7 +1,7 @@
 import { Badge } from '@/components/atoms/Badge'
 import { Text } from '@/components/atoms/Text'
 import Box from '@/components/layout/Box'
-import { BlogCardList } from '@/components/organisms/BlogCardList'
+import { BlogListContainer } from '@/components/organisms/BlogListContainer'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -30,13 +30,6 @@ export const SearchPage = () => {
   const tag = searchParams.get('tag') ?? undefined
   const keyword = searchParams.get('keyword') ?? undefined
 
-  let blogCardList
-  if (search?.type === 'tag') {
-    blogCardList = <BlogCardList tag={tag} />
-  } else if (search?.type === 'keyword') {
-    blogCardList = <BlogCardList keyword={keyword} />
-  }
-
   return (
     <>
       <Box marginBottom={2}>
@@ -51,7 +44,11 @@ export const SearchPage = () => {
           <Badge backgroundColor="pink">{search?.key}</Badge>
         )}
       </Box>
-      {blogCardList}
+      {search?.type === 'tag' ? (
+        <BlogListContainer tag={tag} />
+      ) : search?.type === 'keyword' ? (
+        <BlogListContainer keyword={keyword} />
+      ) : null}
     </>
   )
 }
