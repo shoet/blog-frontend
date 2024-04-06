@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { Pagenation } from '.'
+import { BlogPagenation } from '.'
 
 export default {
   title: 'molecules/Pagenation',
-  component: Pagenation,
-} as Meta<typeof Pagenation>
+  component: BlogPagenation,
+} as Meta<typeof BlogPagenation>
 
-type Story = StoryObj<typeof Pagenation>
+type Story = StoryObj<typeof BlogPagenation>
 
 export const Basic: Story = {}
