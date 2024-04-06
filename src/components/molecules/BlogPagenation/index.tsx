@@ -38,14 +38,19 @@ export const BlogPagenation = () => {
   const [prevCursorId, setPrevCursorId] = useState<number>()
   const [nextCursorId, setNextCursorId] = useState<number>()
 
-  const { isLoading, mutatePage, blogs, prevEOF, nextEOF } = useBlogContext()
+  const { isLoading, mutatePage, blogs, prevEOF, nextEOF, currentCursorId } =
+    useBlogContext()
 
   useEffect(() => {
     setPrevCursorId(blogs.at(0)?.id)
     setNextCursorId(blogs.at(blogs.length - 1)?.id)
   }, [blogs, blogs.length])
 
-  const prevPaging = async () => {
+  const prevPagingDisabled = currentCursorId === undefined || prevEOF
+  const nextPagingDisabled = nextEOF
+
+  const prevPaging = () => {
+    if (prevPagingDisabled) return
     if (prevEOF == false && prevCursorId) {
       mutatePage({ pagenationDirection: 'prev', cursorBlogId: prevCursorId })
     }
@@ -60,11 +65,11 @@ export const BlogPagenation = () => {
     <Flex marginTop={2} justifyContent="center">
       {isLoading == false && (
         <Container>
-          <PagingButton onClick={prevPaging} disabled={prevEOF}>
+          <PagingButton onClick={prevPaging} disabled={prevPagingDisabled}>
             <IconArrowLeft />
           </PagingButton>
           <Box width="100px" />
-          <PagingButton onClick={nextPaging} disabled={nextEOF}>
+          <PagingButton onClick={nextPaging} disabled={nextPagingDisabled}>
             <IconArrowRight />
           </PagingButton>
         </Container>

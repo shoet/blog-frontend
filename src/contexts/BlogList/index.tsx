@@ -10,6 +10,7 @@ type BlogContextData = {
   prevEOF: boolean
   nextEOF: boolean
   isLoading: boolean
+  currentCursorId?: number
   mutatePage: (props: MutateProps) => Promise<void>
 }
 
@@ -64,6 +65,7 @@ export const BlogContextProvider = (
     nextEOF: nextEOF,
     isLoading: isLoading,
     mutatePage: mutatePage,
+    currentCursorId: cursorBlogId,
   }
   return <BlogContext.Provider value={data}>{children}</BlogContext.Provider>
 }
