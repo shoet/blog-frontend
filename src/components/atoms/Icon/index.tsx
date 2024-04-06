@@ -6,7 +6,12 @@ import {
   faYoutube,
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
-import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
+import {
+  faMagnifyingGlass,
+  faXmark,
+  faAngleRight,
+  faAngleLeft,
+} from '@fortawesome/free-solid-svg-icons'
 import { Color, Responsive, toResponsiveValue } from '@/utils/style'
 
 type IconProps = {
@@ -21,7 +26,6 @@ const IconStyle = styled.div.withConfig({
   display: 'inline-block';
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
-  cursor: pointer;
   transition: all 0.1s ease-in-out;
   ${({ focusColor, theme }) =>
     focusColor &&
@@ -50,3 +54,9 @@ export const IconSearch = withIconStyle(
   <FontAwesomeIcon icon={faMagnifyingGlass} />,
 )
 export const IconXmark = withIconStyle(<FontAwesomeIcon icon={faXmark} />)
+export const IconArrowLeft = withIconStyle(
+  <FontAwesomeIcon icon={faAngleLeft} />,
+)
+export const IconArrowRight = withIconStyle(
+  <FontAwesomeIcon icon={faAngleRight} />,
+)

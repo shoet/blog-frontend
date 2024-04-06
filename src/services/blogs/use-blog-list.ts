@@ -3,9 +3,20 @@ import { parseCookie } from '@/utils/cookie'
 import { buildFetchClient, buildFetcher } from '@/utils/fetcher'
 import useSWR from 'swr'
 
+export type PagenationDirection = 'prev' | 'next'
+
 type UseBlogListInput = {
   tag?: string
   keyword?: string
+  cursorBlogId?: number
+  limit?: number
+  pagenationDirection?: PagenationDirection
+}
+
+type UseBlogListResponse = {
+  blogs: Blog[]
+  prevEOF: boolean
+  nextEOF: boolean
 }
 
 export const useBlogList = (
@@ -21,13 +32,23 @@ export const useBlogList = (
   if (input.keyword) {
     params.append('keyword', input.keyword)
   }
+  if (input.cursorBlogId) {
+    params.append('cursor_id', input.cursorBlogId.toString())
+  }
+  if (input.limit) {
+    params.append('limit', input.limit.toString())
+  }
+  if (input.pagenationDirection) {
+    params.append('direction', input.pagenationDirection.toString())
+  }
   if (Array.from(params).length > 0) {
     url = `${url}?${params}`
   }
-  console.log(url)
-  const { data, isLoading, error, mutate } = useSWR<Blog[]>(url)
+  const { data, isLoading, error, mutate } = useSWR<UseBlogListResponse>(url)
   return {
-    blogs: data || initial,
+    blogs: data?.blogs || initial,
+    prevEOF: data?.prevEOF || false,
+    nextEOF: data?.nextEOF || false,
     isLoading,
     error,
     mutate,

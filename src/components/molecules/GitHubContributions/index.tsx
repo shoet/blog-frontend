@@ -13,17 +13,19 @@ const ContributionTile = styled.div<{ color: string }>`
   border-radius: 20%;
 `
 
+const ContributionColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 const ContributionColumn = (props: { contribution: GitHubContributions }) => {
   const { contribution } = props
-  const Column = styled.div`
-    display: flex;
-    flex-direction: column;
-  `
   return (
-    <Column>
+    <ContributionColumnContainer>
       {contribution.contributionDays.map((cd, idx) => {
         return (
           <div
+            key={idx}
             style={{
               paddingBottom:
                 contribution.contributionDays.length - 1 === idx
@@ -35,31 +37,32 @@ const ContributionColumn = (props: { contribution: GitHubContributions }) => {
           </div>
         )
       })}
-    </Column>
+    </ContributionColumnContainer>
   )
 }
+
+const GitHubContributionsRow = styled.div`
+  &::-webkit-scrollbar{
+    display: none;
+  }
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  overflow-x: scroll;
+  padding: 0 0.5rem;
+`
 
 export const GitHubContributionsGrid = (props: GitHubContributionsProps) => {
   const { contributions } = props
 
-  const Row = styled.div`
-    &::-webkit-scrollbar{
-      display: none;
-    }
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    overflow-x: scroll;
-    padding: 0 0.5rem;
-  `
-
   return (
     <>
       <a href="https://github.com/shoet" target="_black">
-        <Row style={{ backgroundColor: '' }}>
+        <GitHubContributionsRow style={{ backgroundColor: '' }}>
           {contributions.map((c, idx) => {
             return (
               <div
+                key={idx}
                 style={{
                   marginLeft: 0 === idx ? '0' : '0.1rem',
                 }}
@@ -68,7 +71,7 @@ export const GitHubContributionsGrid = (props: GitHubContributionsProps) => {
               </div>
             )
           })}
-        </Row>
+        </GitHubContributionsRow>
       </a>
     </>
   )

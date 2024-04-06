@@ -13,6 +13,18 @@ type BlogTableProps = {
   onClickDelete?: () => void
 }
 
+const TableWrapper = styled.div`
+  th,
+  td {
+    border: solid 1px;
+    padding: 10px;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+`
+
 const TitleLink = styled(NavLink)`
   text-decoration: underline;
   color: ${({ theme }) =>
@@ -37,18 +49,6 @@ export const BlogTable = (props: BlogTableProps) => {
     await deleteBlog(context, { blogId: id }, token)
     onClickDelete && onClickDelete()
   }
-
-  const TableWrapper = styled.div`
-    th,
-    td {
-      border: solid 1px;
-      padding: 10px;
-    }
-
-    table {
-      border-collapse: collapse;
-    }
-  `
 
   return (
     <TableWrapper>

@@ -36,21 +36,22 @@ type BlogFormProps = {
   onSubmit?: (data: BlogFormData) => void
 }
 
-const PreviewImage = ({ src }: { src: string }) => {
-  const Wrapper = styled.div`
+const PreviewImageContainer = styled.div`
+width: 100%;
+height: 150px;
+> img {
   width: 100%;
-  height: 150px;
-  > img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  `
+  height: 100%;
+  object-fit: contain;
+}
+`
+
+const PreviewImage = ({ src }: { src: string }) => {
   return (
     <Box>
-      <Wrapper>
+      <PreviewImageContainer>
         <img src={src} />
-      </Wrapper>
+      </PreviewImageContainer>
     </Box>
   )
 }
