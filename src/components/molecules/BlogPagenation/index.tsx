@@ -1,11 +1,9 @@
 import { IconArrowLeft, IconArrowRight } from '@/components/atoms/Icon'
 import Box from '@/components/layout/Box'
+import Flex from '@/components/layout/Flex'
+import { useBlogContext } from '@/contexts/BlogList'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-
-type BlogPagenationProps = {
-  onClickPrev?: () => void
-  onClickNext?: () => void
-}
 
 const Container = styled.div`
     display: flex;
@@ -28,18 +26,41 @@ const PagingButton = styled.div`
     }
   `
 
-export const BlogPagenation = (props: BlogPagenationProps) => {
-  const { onClickPrev, onClickNext } = props
+export const BlogPagenation = () => {
+  const [prevCursorId, setPrevCursorId] = useState<number>()
+  const [nextCursorId, setNextCursorId] = useState<number>()
+
+  const { isLoading, mutatePage, blogs } = useBlogContext()
+
+  useEffect(() => {
+    setPrevCursorId(blogs.at(0)?.id)
+    setNextCursorId(blogs.at(blogs.length - 1)?.id)
+  }, [blogs, blogs.length])
+
+  const prevPaging = async () => {
+    if (prevCursorId) {
+      mutatePage({ pagenationDirection: 'prev', cursorBlogId: prevCursorId })
+    }
+  }
+  const nextPaging = async () => {
+    if (nextCursorId) {
+      mutatePage({ pagenationDirection: 'next', cursorBlogId: nextCursorId })
+    }
+  }
 
   return (
-    <Container>
-      <PagingButton>
-        <IconArrowLeft />
-      </PagingButton>
-      <Box width="100px" />
-      <PagingButton>
-        <IconArrowRight />
-      </PagingButton>
-    </Container>
+    <Flex marginTop={2} justifyContent="center">
+      {isLoading == false && (
+        <Container>
+          <PagingButton onClick={prevPaging}>
+            <IconArrowLeft />
+          </PagingButton>
+          <Box width="100px" />
+          <PagingButton onClick={nextPaging}>
+            <IconArrowRight />
+          </PagingButton>
+        </Container>
+      )}
+    </Flex>
   )
 }

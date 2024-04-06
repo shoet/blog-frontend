@@ -3,7 +3,7 @@ import { parseCookie } from '@/utils/cookie'
 import { buildFetchClient, buildFetcher } from '@/utils/fetcher'
 import useSWR from 'swr'
 
-type PagenationDirection = 'prev' | 'next'
+export type PagenationDirection = 'prev' | 'next'
 
 type UseBlogListInput = {
   tag?: string
