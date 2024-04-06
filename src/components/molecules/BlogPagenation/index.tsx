@@ -7,17 +7,14 @@ type BlogPagenationProps = {
   onClickNext?: () => void
 }
 
-export const BlogPagenation = (props: BlogPagenationProps) => {
-  const { onClickPrev, onClickNext } = props
-
-  const Container = styled.div`
+const Container = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     max-width: 200px
   `
 
-  const PagingButton = styled.div`
+const PagingButton = styled.div`
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;
@@ -30,6 +27,9 @@ export const BlogPagenation = (props: BlogPagenationProps) => {
       background-color: black;
     }
   `
+
+export const BlogPagenation = (props: BlogPagenationProps) => {
+  const { onClickPrev, onClickNext } = props
 
   return (
     <Container>
