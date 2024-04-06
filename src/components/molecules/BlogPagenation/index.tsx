@@ -23,7 +23,7 @@ const enableStyle = css`
 `
 
 const disableStyle = css`
-  color: #f0f0f0;
+  color: #bababa;
 `
 
 const PagingButton = styled.div<{ disabled: boolean }>`
@@ -53,11 +53,13 @@ export const BlogPagenation = () => {
     if (prevPagingDisabled) return
     if (prevEOF == false && prevCursorId) {
       mutatePage({ pagenationDirection: 'prev', cursorBlogId: prevCursorId })
+      window.scrollTo(0, 0)
     }
   }
   const nextPaging = async () => {
     if (nextEOF == false && nextCursorId) {
       mutatePage({ pagenationDirection: 'next', cursorBlogId: nextCursorId })
+      window.scrollTo(0, 0)
     }
   }
 

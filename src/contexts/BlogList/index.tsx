@@ -24,7 +24,7 @@ const BlogContext = createContext<BlogContextData>({
 
 export const useBlogContext = () => useContext(BlogContext)
 
-const limit = 2
+const limit = 5
 
 type BlogContextProviderProps = {
   tag?: string
