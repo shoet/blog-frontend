@@ -3,7 +3,7 @@ import Box from '@/components/layout/Box'
 import Flex from '@/components/layout/Flex'
 import { useBlogContext } from '@/contexts/BlogList'
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Container = styled.div`
     display: flex;
@@ -12,25 +12,33 @@ const Container = styled.div`
     max-width: 200px
   `
 
-const PagingButton = styled.div`
-    font-size: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 70px;
-    text-align: center;
+const enableStyle = css`
     transition: all 0.1s ease-in-out;
     &:hover {
       color: white;
       border-radius: 5px;
       background-color: black;
     }
+    cursor: pointer;
+`
+
+const disableStyle = css`
+  color: #f0f0f0;
+`
+
+const PagingButton = styled.div<{ disabled: boolean }>`
+    font-size: 30px;
+    font-weight: bold;
+    width: 70px;
+    text-align: center;
+    ${({ disabled }) => (disabled ? disableStyle : enableStyle)}
   `
 
 export const BlogPagenation = () => {
   const [prevCursorId, setPrevCursorId] = useState<number>()
   const [nextCursorId, setNextCursorId] = useState<number>()
 
-  const { isLoading, mutatePage, blogs } = useBlogContext()
+  const { isLoading, mutatePage, blogs, prevEOF, nextEOF } = useBlogContext()
 
   useEffect(() => {
     setPrevCursorId(blogs.at(0)?.id)
@@ -38,12 +46,12 @@ export const BlogPagenation = () => {
   }, [blogs, blogs.length])
 
   const prevPaging = async () => {
-    if (prevCursorId) {
+    if (prevEOF == false && prevCursorId) {
       mutatePage({ pagenationDirection: 'prev', cursorBlogId: prevCursorId })
     }
   }
   const nextPaging = async () => {
-    if (nextCursorId) {
+    if (nextEOF == false && nextCursorId) {
       mutatePage({ pagenationDirection: 'next', cursorBlogId: nextCursorId })
     }
   }
@@ -52,11 +60,11 @@ export const BlogPagenation = () => {
     <Flex marginTop={2} justifyContent="center">
       {isLoading == false && (
         <Container>
-          <PagingButton onClick={prevPaging}>
+          <PagingButton onClick={prevPaging} disabled={prevEOF}>
             <IconArrowLeft />
           </PagingButton>
           <Box width="100px" />
-          <PagingButton onClick={nextPaging}>
+          <PagingButton onClick={nextPaging} disabled={nextEOF}>
             <IconArrowRight />
           </PagingButton>
         </Container>

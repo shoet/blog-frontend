@@ -26,7 +26,6 @@ const IconStyle = styled.div.withConfig({
   display: 'inline-block';
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
-  cursor: pointer;
   transition: all 0.1s ease-in-out;
   ${({ focusColor, theme }) =>
     focusColor &&

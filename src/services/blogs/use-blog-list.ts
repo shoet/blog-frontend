@@ -15,6 +15,8 @@ type UseBlogListInput = {
 
 type UseBlogListResponse = {
   blogs: Blog[]
+  prevEOF: boolean
+  nextEOF: boolean
 }
 
 export const useBlogList = (
@@ -45,6 +47,8 @@ export const useBlogList = (
   const { data, isLoading, error, mutate } = useSWR<UseBlogListResponse>(url)
   return {
     blogs: data?.blogs || initial,
+    prevEOF: data?.prevEOF || false,
+    nextEOF: data?.nextEOF || false,
     isLoading,
     error,
     mutate,

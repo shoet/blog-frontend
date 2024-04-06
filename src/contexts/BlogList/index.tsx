@@ -7,12 +7,16 @@ import { PropsWithChildren, createContext, useContext, useState } from 'react'
 
 type BlogContextData = {
   blogs: Blog[]
+  prevEOF: boolean
+  nextEOF: boolean
   isLoading: boolean
   mutatePage: (props: MutateProps) => Promise<void>
 }
 
 const BlogContext = createContext<BlogContextData>({
   blogs: [],
+  prevEOF: false,
+  nextEOF: false,
   isLoading: false,
   mutatePage: async () => {},
 })
@@ -39,7 +43,7 @@ export const BlogContextProvider = (
   const [pagenationDirection, setPagenationDirection] =
     useState<PagenationDirection>('next')
 
-  const { blogs, isLoading, mutate } = useBlogList(
+  const { blogs, isLoading, prevEOF, nextEOF, mutate } = useBlogList(
     {
       apiBaseUrl: import.meta.env.VITE_API_BASE_URL,
     },
@@ -56,6 +60,8 @@ export const BlogContextProvider = (
 
   const data: BlogContextData = {
     blogs: blogs,
+    prevEOF: prevEOF,
+    nextEOF: nextEOF,
     isLoading: isLoading,
     mutatePage: mutatePage,
   }
